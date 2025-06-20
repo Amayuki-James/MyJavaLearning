@@ -1,63 +1,77 @@
 package Practices.Others.DataStructure;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Iterator;
 
-// Define a CartItem class with an addProduct method
 class CartItem {
-    public void addProduct(String productName, double productPrice, int productQuantity) {
-        System.out.println("Adding product: " + productName + " Price: " + productPrice + " Quantity: " + productQuantity);
+    private String name;
+    private double price;
+    private int quantity;
+
+    public CartItem(String name, double price, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() { return quantity; }
+    public double getPrice() { return price; }
+
+    @Override
+    public String toString() {
+        return name + " - " + quantity + " pcs - £" + price;
     }
 }
+
 class ShoppingCart {
-    private ArrayList<CartItem> cart;
+    private ArrayList<CartItem> cart = new ArrayList<>();
 
-    public ShoppingCart() {
-        cart = new ArrayList<CartItem>();
+    public void addProductToCart(String name, double price, int quantity) {
+        cart.add(new CartItem(name, price, quantity));
     }
 
-    public void addProductToCart(String productName, double productPrice, int productQuantity) {
-        for (CartItem item : cart) {
-            item.addProduct(productName, productPrice, productQuantity);
+    public void cleanCart() {
+        Iterator<CartItem> it = cart.iterator();
+        while (it.hasNext()) {
+            CartItem item = it.next();
+            if (item.getQuantity() == 0 || item.getPrice() == 0.0) {
+                it.remove();
+            }
         }
     }
 
-    public void addCartItem(CartItem item) {
-        cart.add(item);
-    }
     public void viewCart() {
-        for (CartItem item : cart) {
-            System.out.println(item);
+        if (cart.isEmpty()) {
+            System.out.println("Your cart is empty.");
+        } else {
+            System.out.println("Your shopping cart:");
+            for (CartItem item : cart) {
+                System.out.println("- " + item);
+            }
         }
     }
 }
-
 public class ShoppingCartPractise {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-
-        // Create a ShoppingCart instance
         ShoppingCart cart = new ShoppingCart();
 
-        // Add some CartItem instances to the cart
-        for (int i = 0; i < 5; i++) {
-            cart.addCartItem(new CartItem());
-        }
+        // 加入幾筆商品（含不合法數據）
+        cart.addProductToCart("Apple", 1.2, 5);
+        cart.addProductToCart("Banana", 0.5, 0);
+        cart.addProductToCart("Orange", 0.0, 3); 
+        cart.addProductToCart("Mango", 2.0, 2);
 
-        // Input product details
-        System.out.println("Input product name: ");
-        String productName = input.nextLine();
-        System.out.println("Input product price: ");
-        double productPrice = input.nextDouble();
-        System.out.println("Input product quantity: ");
-        int productQuantity = input.nextInt();
-
-        // Add products to the cart
-        cart.addProductToCart(productName, productPrice, productQuantity);
-
-        // View the cart
+        System.out.println("\nBefore cleanup:");
         cart.viewCart();
 
-        // Close the scanner
+        cart.cleanCart();
+
+        System.out.println("\nAfter cleanup:");
+        cart.viewCart();
+
         input.close();
     }
 }
+
+
