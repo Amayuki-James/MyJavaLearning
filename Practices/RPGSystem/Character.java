@@ -181,13 +181,13 @@ class Mage extends Character {
         name,
         String.valueOf(MaxHP),
         String.valueOf(CurrentHP),
-        String.valueOf(CurrentMP),
-        String.valueOf(MaxMP),
         String.valueOf(moveSpeed),
         String.valueOf(MagicPenetration),
         String.valueOf(level),
         String.valueOf(experience),
         String.valueOf(isAlive),
+        String.valueOf(MaxMP),
+        String.valueOf(CurrentMP),
         String.valueOf(spellPower),
         String.valueOf(spellType)
         );
@@ -195,7 +195,7 @@ class Mage extends Character {
 
     public static Mage deserialize(String data) {
         String[] parts = data.split(",");
-        if (!parts[0].equals("Mage")) throw new IllegalArgumentException("Invalid type for Warrior");
+        if (!parts[0].equals("Mage")) throw new IllegalArgumentException("Invalid type for Mage");
 
         Mage M = new Mage();
         M.name = parts[1];
@@ -206,8 +206,10 @@ class Mage extends Character {
         M.level = Integer.parseInt(parts[6]);
         M.experience = Float.parseFloat(parts[7]);
         M.isAlive = Boolean.parseBoolean(parts[8]);
-        M.strength = Integer.parseInt(parts[9]);
-        M.critChance = Float.parseFloat(parts[10]);
+        M.MaxMP = Integer.parseInt(parts[9]);
+        M.CurrentMP = Integer.parseInt(parts[10]);
+        M.spellPower = Integer.parseInt(parts[11]);
+        M.spellType = Integer.parseInt(parts[12]);
         return M;
     }   
 }
@@ -280,7 +282,43 @@ class Archer extends Character {
             return;
         }
     }
+    public String serialize() {
+    return String.join(",",
+            "Archer",
+        name,
+        String.valueOf(MaxHP),
+        String.valueOf(CurrentHP),
+        String.valueOf(moveSpeed),
+        String.valueOf(MagicPenetration),
+        String.valueOf(level),
+        String.valueOf(experience),
+        String.valueOf(isAlive),
+        String.valueOf(agility),
+        String.valueOf(dexterity),
+        String.valueOf(arrowCount)
+        );
+    }
+
+    public static Archer deserialize(String data) {
+        String[] parts = data.split(",");
+        if (!parts[0].equals("Archer")) throw new IllegalArgumentException("Invalid type for Archer");
+
+        Archer A = new Archer();
+        A.name = parts[1];
+        A.MaxHP = Integer.parseInt(parts[2]);
+        A.CurrentHP = Integer.parseInt(parts[3]);
+        A.moveSpeed = Integer.parseInt(parts[4]);
+        A.MagicPenetration = Integer.parseInt(parts[5]);
+        A.level = Integer.parseInt(parts[6]);
+        A.experience = Float.parseFloat(parts[7]);
+        A.isAlive = Boolean.parseBoolean(parts[8]);
+        A.agility = Integer.parseInt(parts[9]);
+        A.dexterity = Integer.parseInt(parts[10]);
+        A.arrowCount = Integer.parseInt(parts[11]);
+        return A;
+    }
 }
+
 
 
 

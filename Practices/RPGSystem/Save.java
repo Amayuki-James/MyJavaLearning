@@ -5,21 +5,16 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Save {
-    static String characterData = "";
-
-    public static void SaveGame() {
+    public static void SaveGame(Character player) {
         File file = new File("H:/Learning/Programming/Java/Practices/RPGSystem/save.txt");
         Scanner scanner = new Scanner(System.in);
 
         try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
+            if (!file.exists()) file.createNewFile();
 
             System.out.println("Please choose a slot to save your game (1-3):");
             int slot = scanner.nextInt();
             scanner.nextLine();
-
             if (slot < 1 || slot > 3) {
                 System.out.println("Invalid slot number.");
                 return;
@@ -34,25 +29,16 @@ public class Save {
             }
             fileScanner.close();
 
-            Warrior exampleWarrior = new Warrior();
-            exampleWarrior.name = "WarriorA";
-            exampleWarrior.MaxHP = 100;
-            exampleWarrior.CurrentHP = 90;
-            exampleWarrior.moveSpeed = 5;
-            exampleWarrior.MagicPenetration = 0;
-            exampleWarrior.level = 1;
-            exampleWarrior.experience = 10.5f;
-            exampleWarrior.isAlive = true;
-            exampleWarrior.strength = 20;
-            exampleWarrior.critChance = 0.3f;
+            String serialized = "";
+            if (player instanceof Warrior) serialized = ((Warrior) player).serialize();
+            else if (player instanceof Mage) serialized = ((Mage) player).serialize();
+            else if (player instanceof Archer) serialized = ((Archer) player).serialize();
+            else throw new IllegalArgumentException("Unsupported character class");
 
-            characterData = exampleWarrior.serialize();
-            slots[slot - 1] = characterData;
+            slots[slot - 1] = serialized;
 
             FileWriter writer = new FileWriter(file);
-            for (String s : slots) {
-                writer.write(s + "\n");
-            }
+            for (String s : slots) writer.write(s + "\n");
             writer.close();
 
             System.out.println("Game saved to slot " + slot + ".");
@@ -62,4 +48,4 @@ public class Save {
             e.printStackTrace();
         }
     }
-}
+}   
