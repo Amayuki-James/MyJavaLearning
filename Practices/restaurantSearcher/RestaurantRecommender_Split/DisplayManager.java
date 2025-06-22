@@ -24,7 +24,7 @@ public class DisplayManager {
         String html = "<html style='color:white; background:#222;'>" +
                 "<h2>🍴 " + name + "</h2>" +
                 "<p>📍 " + address + "</p>" +
-                "<p>⭐ 評價: " + rating + "</p>" +
+                "<p>⭐ Rating: " + rating + "</p>" +
                 (!photoUrl.isEmpty() ? "<img src='" + photoUrl + "' width='300' /><br>" : "") +
                 "</html>";
 
